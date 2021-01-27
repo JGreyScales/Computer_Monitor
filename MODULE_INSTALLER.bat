@@ -3,6 +3,10 @@ cls
 color 4
 python -V
 pip -V
+echo.
+echo ==================================== PYTHON UP TO DATE ==================================
+echo.
+echo.
 timeout 2
 color 1
 pip install python-dev
@@ -18,4 +22,8 @@ pip install GPUtil
 pip install tabulate
 pip install DateTime
 color 2
+echo.
+echo.
+@echo ======= =============== =============== =============== COMPLETED =============== =============== =============== ======
+echo.
 timeout 5
