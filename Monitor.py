@@ -1,17 +1,26 @@
-from functions.py import  *
-import win32api, time
+from screeninfo import *
 
-def printInfo(device):
-    print((device.DeviceName, device.DeviceString))
-    settings = win32api.EnumDisplaySettings(device.DeviceName, -1)
-    for info in ['Color', 'BitsPerPel', 'DisplayFrequency']:
-        print("%s: %s"%(info, getattr(settings, info)))
+import time
+import win32api
+import wmi
 
 
+class monitorInfo:
 
-while True:
-    device = win32api.EnumDisplayDevices()
-   # for loop in ['1', '2', '3', '4']:
-   #     print(f"\n")
-    printInfo(device)
-    time.sleep(5)
+    def __init__(self):
+        # init function
+        self.fullInfo = None
+        self.displays = None
+        self.monitors = None
+        self.displayInfo = None
+
+    def gatherInfo(self):
+        # gathers the info for the monitors and puts it into vars
+        device = win32api.EnumDisplayDevices()
+        obj = wmi.WMI().Win32_PnPEntity(ConfigManagerErrorCode=0)
+        self.displays = [x for x in obj if 'DISPLAY' in str(x)]
+        self.monitors = get_monitors()
+        self.displayInfo = win32api.EnumDisplaySettings(device.DeviceName, 0)
+        self.fullInfo = [self.displayInfo, self.monitors, self.displayInfo]
+
+        return self.fullInfo
